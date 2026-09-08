@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+data/
+artifacts/*.pt
+artifacts/*.png
+artifacts/*.csv
+artifacts/*.json
+artifacts/pip_install.log
+.DS_Store
