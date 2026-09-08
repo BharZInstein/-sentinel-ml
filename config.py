@@ -41,7 +41,7 @@ NUM_CLASSES = 10
 # ---------------------------------------------------------------------------
 # Target model training
 # ---------------------------------------------------------------------------
-TARGET_EPOCHS = 12
+TARGET_EPOCHS = 6
 TARGET_BATCH_SIZE = 128
 TARGET_LR = 0.1
 TARGET_WEIGHT_DECAY = 5e-4
@@ -53,8 +53,9 @@ TARGET_MOMENTUM = 0.9
 # Number of clean CIFAR-10 *test* images to draw from when crafting attacks.
 # Each attack family perturbs (a slice of) this pool; keep it modest for speed.
 ATTACK_POOL_SIZE = 4000
-# Carlini-Wagner is iterative and slow — cap how many images it attacks.
+# Carlini-Wagner and Square are iterative/black-box and slow — cap their pools.
 CW_POOL_SIZE = 800
+SQUARE_POOL_SIZE = 800
 ATTACK_BATCH_SIZE = 128
 
 # Epsilons are expressed in the 0-1 pixel space (converted to normalized space
@@ -69,7 +70,7 @@ PGD_ALPHA = 2 / 255
 # out-of-distribution generalization test. This split is the research core.
 # ---------------------------------------------------------------------------
 TRAIN_ATTACKS = ["fgsm_4", "fgsm_8", "pgd_4", "pgd_8"]
-HELDOUT_ATTACKS = ["cw", "spatial"]
+HELDOUT_ATTACKS = ["cw", "square"]
 ALL_ATTACKS = TRAIN_ATTACKS + HELDOUT_ATTACKS
 
 # ---------------------------------------------------------------------------
