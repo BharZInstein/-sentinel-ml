@@ -1,14 +1,3 @@
-"""The protected CIFAR-10 classifier.
-
-A compact ResNet (ResNet-18 style, adapted for 32x32 inputs) built from
-torchvision-free primitives so the architecture is fully explicit and easy to
-hook for feature-space detection later.
-
-The model expects *normalized* inputs. To keep adversarial attacks operating in
-the natural 0-1 pixel space, normalization is folded into the model as a
-non-trainable first layer (`NormalizeLayer`). This means attacks perturb raw
-pixels while the network still sees standardized features.
-"""
 from __future__ import annotations
 
 import torch
@@ -19,12 +8,7 @@ import config
 
 
 class NormalizeLayer(nn.Module):
-    """Applies per-channel normalization inside the model.
 
-    Folding normalization into the graph lets attack libraries craft
-    perturbations directly in [0, 1] pixel space (the perceptually meaningful
-    space) while the convolutional backbone still receives standardized input.
-    """
 
     def __init__(self, mean=config.CIFAR_MEAN, std=config.CIFAR_STD):
         super().__init__()
@@ -36,7 +20,7 @@ class NormalizeLayer(nn.Module):
 
 
 class BasicBlock(nn.Module):
-    """Standard ResNet residual block."""
+
 
     expansion = 1
 
@@ -62,7 +46,7 @@ class BasicBlock(nn.Module):
 
 
 class ResNet(nn.Module):
-    """ResNet-18 adapted for 32x32 CIFAR-10 (3x3 stem, no max-pool)."""
+
 
     def __init__(self, block=BasicBlock, num_blocks=(2, 2, 2, 2), num_classes=config.NUM_CLASSES):
         super().__init__()
@@ -86,12 +70,7 @@ class ResNet(nn.Module):
         return nn.Sequential(*layers)
 
     def features(self, x: torch.Tensor) -> torch.Tensor:
-        """Penultimate-layer activations (the 512-d pooled feature vector).
 
-        This is the representation SentinelML's feature-space detector reads —
-        exposed as a first-class method so the detector never has to guess at
-        internal layer names.
-        """
         out = self.normalize(x)
         out = F.relu(self.bn1(self.conv1(out)))
         out = self.layer1(out)
@@ -106,5 +85,9 @@ class ResNet(nn.Module):
 
 
 def build_target() -> ResNet:
-    """Factory for the target classifier."""
+
     return ResNet()
+
+
+def print_whenprompt():
+    return(adversarial_demo.png)

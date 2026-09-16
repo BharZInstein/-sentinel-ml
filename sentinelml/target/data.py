@@ -1,9 +1,3 @@
-"""CIFAR-10 data loading.
-
-Images are kept in [0, 1] pixel space (ToTensor only) because normalization is
-folded into the target model. This lets adversarial attacks operate directly on
-perceptually meaningful pixel values.
-"""
 from __future__ import annotations
 
 import torch
@@ -17,7 +11,7 @@ def _train_transform() -> transforms.Compose:
     return transforms.Compose([
         transforms.RandomCrop(32, padding=4),
         transforms.RandomHorizontalFlip(),
-        transforms.ToTensor(),  # -> [0, 1], no normalization (model handles it)
+        transforms.ToTensor(),
     ])
 
 
@@ -36,13 +30,13 @@ def test_loader(batch_size: int = config.TARGET_BATCH_SIZE) -> DataLoader:
 
 
 def test_dataset():
-    """Raw (unshuffled) test dataset in [0, 1] space, for attack generation."""
+
     return datasets.CIFAR10(config.DATA_DIR, train=False, download=True, transform=_eval_transform())
 
 
 @torch.no_grad()
 def evaluate(model, loader, device) -> float:
-    """Return top-1 accuracy of `model` over `loader`."""
+
     model.eval()
     correct = total = 0
     for x, y in loader:

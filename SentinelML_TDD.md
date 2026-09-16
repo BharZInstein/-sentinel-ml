@@ -122,7 +122,7 @@ Historically, most detection defenses that reported success against static attac
   ┌────────┐   (1)      │  ┌───────────┐   (2)      ┌──────────────┐             │
   │        │  request   │  │           │ normalize  │              │             │
   │ Client │───────────►│─►│ API Proxy │───────────►│  Detector    │             │
-  │        │            │  │ (Ingress) │            │  Model       │             │
+  │        │            │  │  │            │  Model       │             │
   └────────┘            │  └───────────┘            │ (clean/adv?) │             │
       ▲                 │        │                   └──────┬───────┘             │
       │                 │        │                          │ (3) score          │

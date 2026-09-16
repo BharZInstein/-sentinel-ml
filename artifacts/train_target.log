@@ -1,0 +1,9 @@
+[target] device = mps
+[target] epoch  1/6 loss=2.118 test_acc=34.54% (165.3s)
+[target] epoch  2/6 loss=1.565 test_acc=45.04% (142.8s)
+[target] epoch  3/6 loss=1.321 test_acc=53.77% (135.9s)
+[target] epoch  4/6 loss=1.090 test_acc=63.57% (130.4s)
+[target] epoch  5/6 loss=0.889 test_acc=69.16% (138.2s)
+[target] epoch  6/6 loss=0.748 test_acc=73.16% (131.1s)
+[target] saved weights -> /Users/bharz76/sentinelml/artifacts/target.pt (best acc 73.16%)
+EXIT:0

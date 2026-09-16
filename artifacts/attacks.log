@@ -1,0 +1,4 @@
+[attack] device = mps
+[attack] clean pool: 4000 correctly-classified images
+[attack] fgsm_4   success 3268/4000 (81.7%) in 5.5s
+[attack] fgsm_8   success 3613/4000 (90.3%) in 5.4s

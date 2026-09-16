@@ -1,12 +1,3 @@
-"""Train the target CIFAR-10 classifier and save its weights.
-
-Run as a module from the project root:
-
-    python -m sentinelml.target.train_target
-
-The trained weights land at `artifacts/target.pt`. Accuracy only needs to be
-reasonable (~85%+) — adversarial attacks succeed regardless of the exact score.
-"""
 from __future__ import annotations
 
 import time
@@ -66,7 +57,7 @@ def train() -> float:
 
 
 def load_target(weights_path=config.TARGET_WEIGHTS, device=DEVICE):
-    """Load a trained target model in eval mode."""
+
     model = build_target().to(device)
     model.load_state_dict(torch.load(weights_path, map_location=device))
     model.eval()
