@@ -1,0 +1,5 @@
+[attack] device = cpu
+[attack] clean pool: 4000 correctly-classified images
+[attack] corruptions: 4000 clean-side images (gaussian_noise, gaussian_blur, jpeg, brightness, contrast)
+[attack] apgd_ce  success 3999/4000 (100.0%) in 2383.0s
+[attack] done -> C:\Users\Rakshitha\Documents\sentiment-ml\-sentinel-ml\data\adv_cache
