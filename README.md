@@ -39,7 +39,7 @@ config.py                 # all tunable knobs (paths, seeds, epsilons, sizes)
 sentinelml/
   device.py               # device selection + global seeding
   target/                 # the protected CIFAR-10 classifier
-  attacks/                # FGSM/PGD/CW/spatial generation -> labeled dataset
+  attacks/                # FGSM/PGD/CW/Square/APGD/DeepFool/OnePixel/patch/spatial + clean-side corruptions
   detector/               # feature-space + input-space adversarial detectors
   eval/                   # generalization matrix, ROC-AUC, clean FPR
 scripts/run_all.py        # end-to-end pipeline

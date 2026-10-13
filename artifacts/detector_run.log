@@ -1,0 +1,34 @@
+[detector] train families: ['fgsm_4', 'fgsm_8', 'pgd_4', 'pgd_8', 'cw']
+[detector] held-out families: ['square']
+[detector] corruptions cache: yes
+[detector] train examples: 17428 (11428 adversarial)
+[detector] epoch  1  loss 0.4219
+[detector] epoch  2  loss 0.3577
+[detector] epoch  3  loss 0.3252
+[detector] epoch  4  loss 0.2967
+[detector] epoch  5  loss 0.2788
+[detector] epoch  6  loss 0.2632
+[detector] epoch  7  loss 0.2514
+[detector] epoch  8  loss 0.2319
+[detector] epoch  9  loss 0.2204
+[detector] epoch 10  loss 0.2177
+[detector] epoch 11  loss 0.2068
+[detector] epoch 12  loss 0.1947
+[detector] epoch 13  loss 0.1812
+[detector] epoch 14  loss 0.1733
+[detector] epoch 15  loss 0.1656
+[detector] epoch 16  loss 0.1627
+[detector] epoch 17  loss 0.1507
+[detector] epoch 18  loss 0.1435
+[detector] epoch 19  loss 0.1314
+[detector] epoch 20  loss 0.1292
+
+[detector] held-out images: 1000; threshold at 5% FPR on clean = 3.318
+family     role         n    AUC  TPR@5%FPR
+fgsm_4     train      773  0.918      0.573
+fgsm_8     train      851  0.970      0.806
+pgd_4      train      939  0.939      0.692
+pgd_8      train      999  0.978      0.891
+cw         train      186  0.849      0.355
+square     held-out   172  0.925      0.622
+clean FPR on corruptions: 0.043

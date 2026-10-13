@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import time
 
 import torch
@@ -8,6 +9,7 @@ import config
 from sentinelml.device import DEVICE, seed_everything
 from sentinelml.target import data as target_data
 from sentinelml.target.train_target import load_target
+from sentinelml.attacks.corruptions import corrupt_pool
 from sentinelml.attacks.registry import ATTACK_FACTORIES, POOL_SIZE, build_attack
 
 
@@ -74,7 +76,22 @@ def generate_family(model, name: str, clean_imgs, clean_labels) -> dict:
     return cache
 
 
+def _parse_args():
+
+    parser = argparse.ArgumentParser(description="Generate adversarial caches per attack family.")
+    parser.add_argument("families", nargs="*", default=list(ATTACK_FACTORIES),
+                        help=f"subset to generate (default: all). Known: {list(ATTACK_FACTORIES)}")
+    parser.add_argument("--no-corruptions", action="store_true",
+                        help="skip the clean-side corruptions cache")
+    return parser.parse_args()
+
+
 def main():
+    args = _parse_args()
+    for name in args.families:
+        if name not in ATTACK_FACTORIES:
+            raise SystemExit(f"unknown attack '{name}'; known: {list(ATTACK_FACTORIES)}")
+
     seed_everything()
     model = load_target()
     print(f"[attack] device = {DEVICE}")
@@ -89,7 +106,13 @@ def main():
     torch.save({"clean": clean_imgs, "labels": clean_labels},
                config.ADV_CACHE_DIR / "clean.pt")
 
-    for name in ATTACK_FACTORIES:
+    if not args.no_corruptions:
+        corrupt = corrupt_pool(clean_imgs, clean_labels)
+        torch.save(corrupt, config.ADV_CACHE_DIR / "corruptions.pt")
+        print(f"[attack] corruptions: {corrupt['meta']['count']} clean-side images "
+              f"({', '.join(corrupt['meta']['types'])})")
+
+    for name in args.families:
         n = POOL_SIZE[name]
         cache = generate_family(model, name, clean_imgs[:n], clean_labels[:n])
         torch.save(cache, config.ADV_CACHE_DIR / f"{name}.pt")

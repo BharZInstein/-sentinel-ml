@@ -8,3 +8,5 @@ artifacts/*.csv
 artifacts/*.json
 artifacts/pip_install.log
 .DS_Store
+.vibe-wise/
+

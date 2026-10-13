@@ -38,6 +38,9 @@ ATTACK_POOL_SIZE = 4000
 
 CW_POOL_SIZE = 800
 SQUARE_POOL_SIZE = 800
+DEEPFOOL_POOL_SIZE = 800
+ONEPIXEL_POOL_SIZE = 500
+SPATIAL_POOL_SIZE = 1000
 ATTACK_BATCH_SIZE = 128
 
 
@@ -46,9 +49,30 @@ PGD_EPSILONS = [4 / 255, 8 / 255]
 PGD_STEPS = 10
 PGD_ALPHA = 2 / 255
 
+APGD_EPS = 8 / 255
+APGD_STEPS = 20
 
-TRAIN_ATTACKS = ["fgsm_4", "fgsm_8", "pgd_4", "pgd_8"]
-HELDOUT_ATTACKS = ["cw", "square"]
+DEEPFOOL_STEPS = 50
+DEEPFOOL_OVERSHOOT = 0.02
+
+ONEPIXEL_PIXELS = 5
+ONEPIXEL_STEPS = 10
+ONEPIXEL_POPSIZE = 10
+
+PATCH_SIZE = 8
+PATCH_STEPS = 100
+PATCH_ALPHA = 0.05
+
+SPATIAL_MAX_ROT = 10.0
+SPATIAL_N_ROT = 5
+SPATIAL_MAX_SHIFT = 3
+
+
+CORRUPTIONS = ["gaussian_noise", "gaussian_blur", "jpeg", "brightness", "contrast"]
+
+
+TRAIN_ATTACKS = ["fgsm_4", "fgsm_8", "pgd_4", "pgd_8", "cw", "patch"]
+HELDOUT_ATTACKS = ["square", "apgd_ce", "apgd_dlr", "deepfool", "onepixel", "spatial"]
 ALL_ATTACKS = TRAIN_ATTACKS + HELDOUT_ATTACKS
 
 
