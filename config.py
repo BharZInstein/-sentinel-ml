@@ -10,6 +10,7 @@ ARTIFACTS_DIR = ROOT / "artifacts"
 
 TARGET_WEIGHTS = ARTIFACTS_DIR / "target.pt"
 DETECTOR_WEIGHTS = ARTIFACTS_DIR / "detector_mlp.pt"
+DETECTOR_ATTN_WEIGHTS = ARTIFACTS_DIR / "detector_attention.pt"
 METRICS_JSON = ARTIFACTS_DIR / "metrics.json"
 MATRIX_CSV = ARTIFACTS_DIR / "generalization_matrix.csv"
 MATRIX_PNG = ARTIFACTS_DIR / "generalization_matrix.png"

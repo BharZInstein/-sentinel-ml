@@ -1,0 +1,41 @@
+[detector] model: attention_early
+[detector] train families: ['fgsm_4', 'fgsm_8', 'pgd_4', 'pgd_8', 'cw', 'patch']
+[detector] held-out families: ['square', 'apgd_ce', 'apgd_dlr', 'onepixel', 'spatial']
+[detector] corruptions cache: yes
+[detector] train examples: 19806 (13806 adversarial)
+[detector] parameters: 417,819
+[detector] epoch  1  loss 0.4093
+[detector] epoch  2  loss 0.2949
+[detector] epoch  3  loss 0.2639
+[detector] epoch  4  loss 0.2473
+[detector] epoch  5  loss 0.2198
+[detector] epoch  6  loss 0.2087
+[detector] epoch  7  loss 0.2020
+[detector] epoch  8  loss 0.1886
+[detector] epoch  9  loss 0.1763
+[detector] epoch 10  loss 0.1709
+[detector] epoch 11  loss 0.1631
+[detector] epoch 12  loss 0.1603
+[detector] epoch 13  loss 0.1564
+[detector] epoch 14  loss 0.1453
+[detector] epoch 15  loss 0.1440
+[detector] epoch 16  loss 0.1340
+[detector] epoch 17  loss 0.1288
+[detector] epoch 18  loss 0.1267
+[detector] epoch 19  loss 0.1140
+[detector] epoch 20  loss 0.1125
+
+[detector] held-out images: 1000; threshold at 5% FPR on clean = 1.834
+family     role         n    AUC  TPR@5%FPR
+fgsm_4     train      773  0.962      0.775
+fgsm_8     train      851  0.991      0.967
+pgd_4      train      939  0.966      0.827
+pgd_8      train      999  0.982      0.924
+cw         train      186  0.756      0.215
+patch      train      794  0.990      0.970
+square     held-out   172  0.886      0.547
+apgd_ce    held-out   999  0.985      0.935
+apgd_dlr   held-out   998  0.991      0.960
+onepixel   held-out    41  0.631      0.049
+spatial    held-out   108  0.539      0.019
+clean FPR on corruptions: 0.069
