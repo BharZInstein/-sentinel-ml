@@ -42,8 +42,17 @@ class FeatureExtractor:
         for p in self.target.parameters():
             p.requires_grad_(False)
         self._captured = {}
+        self._last_logits = None
         for name in STAGES:
             getattr(self.target, name).register_forward_hook(self._make_hook(name))
+
+    @property
+    def last_logits(self) -> torch.Tensor:
+        """Logits from the target forward pass that produced the current features."""
+
+        if self._last_logits is None:
+            raise RuntimeError("features have not been extracted yet")
+        return self._last_logits
 
     def _make_hook(self, name):
         def hook(_module, _inputs, output):
@@ -52,6 +61,7 @@ class FeatureExtractor:
 
     def __call__(self, x: torch.Tensor) -> torch.Tensor:
         logits = self.target(x)
+        self._last_logits = logits
         pooled = [F.adaptive_avg_pool2d(self._captured[n], 1).flatten(1) for n in STAGES]
         return torch.cat(pooled + [logit_stats(logits)], dim=1)
 
@@ -69,6 +79,7 @@ class TokenExtractor(FeatureExtractor):
 
     def __call__(self, x: torch.Tensor) -> dict:
         logits = self.target(x)
+        self._last_logits = logits
         out = {}
         for n, g in self.grid.items():
             pooled = F.adaptive_avg_pool2d(self._captured[n], g)

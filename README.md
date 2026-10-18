@@ -27,8 +27,7 @@ threshold-independent ROC-AUC, and measure the false-positive rate on realistic 
   (rotation/translation) attack are held out for out-of-distribution testing. Benign corruptions
   (noise, blur, JPEG, brightness, contrast) are used as extra clean examples.
 - **Core:** attack generation → detector training → generalization + FPR evaluation.
-- **Deferred:** the FastAPI gateway, the SIEM dashboard, the LLM track, and adaptive white-box
-  red-teaming (see the TDD).
+- **Deferred:** the FastAPI gateway, the SIEM dashboard, and the LLM track (see the TDD).
 
 ## Stack
 
@@ -51,12 +50,15 @@ sentinelml/
     data.py               # loads caches, splits train/test by image id
     model.py              # MLPDetector and AttentionDetector (token layouts, optional hybrid head)
     train.py              # train + evaluate any detector variant (--model, --seed)
+    train_minimax.py      # alternating detector updates against adaptive white-box PGD
+    evaluate_adaptive.py  # adaptive attack degradation curve and firewall-bypass rate
     attention_map.py      # attention-weight figure for the best attention variant
+  attacks/
+    adaptive.py           # differentiable target + detector white-box attack objective
   demo.py                 # renders clean vs adversarial examples to artifacts/adversarial_demo.png
 ```
 
-Planned, not yet built: `eval/` (full leave-one-attack-out matrix), `scripts/run_all.py`, an
-adaptive attacker, and minimax (attacker vs detector) training.
+Planned, not yet built: `eval/` (full leave-one-attack-out matrix) and `scripts/run_all.py`.
 
 ## Setup
 
@@ -86,6 +88,17 @@ python -m sentinelml.detector.train --model mlp --seed 1             # extra see
 
 # 4. Attention-weight figure for the best variant (needs step 3 with the default seed)
 python -m sentinelml.detector.attention_map                          # -> artifacts/attention_c.png
+
+# 5. Minimax hardening: refresh adaptive attacks against the current detector,
+#    then update the detector on those attacks (warm-start is recommended)
+python -m sentinelml.detector.train_minimax \
+  --model attention_early_hybrid \
+  --init artifacts/detector_attention_early_hybrid.pt
+
+# 6. Evaluate the white-box adaptive degradation curve
+python -m sentinelml.detector.evaluate_adaptive \
+  --model attention_early_hybrid \
+  --weights artifacts/detector_attention_early_hybrid_minimax.pt
 
 # Optional: render example adversarial images -> artifacts/adversarial_demo.png
 python -m sentinelml.demo
@@ -156,6 +169,18 @@ to the clean one — the same families the detectors miss. Attention shows where
 not a complete explanation of its decision.
 
 Per-run logs: `artifacts/detector_*_run.log`.
+
+## Adaptive red-team and minimax training
+
+The adaptive attacker has the target and detector weights and optimizes
+
+`cross_entropy(target(x), y) - λ · detector_logit(x)`
+
+under an L-infinity budget. It seeks a target-model error while lowering the detector's
+adversarial score. `train_minimax.py` alternates fresh adaptive PGD batches with detector updates;
+`evaluate_adaptive.py` reports target success, detector detection on successful attacks, and the
+rate at which the complete firewall is bypassed. The attack is evaluation code for this repository's
+own frozen target and detector.
 
 ## Status
 

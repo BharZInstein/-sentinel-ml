@@ -84,3 +84,18 @@ TEST_SPLIT = 0.25
 
 
 DECISION_THRESHOLD = 0.5
+
+
+# Adaptive white-box red-team / minimax training.
+# The detector emits a logit, so the adaptive attacker minimizes that logit while
+# maximizing the target-model cross-entropy loss.
+ADAPTIVE_EPSILONS = [4 / 255, 8 / 255, 16 / 255]
+ADAPTIVE_STEPS = 20
+ADAPTIVE_ALPHA = 2 / 255
+ADAPTIVE_DETECTOR_WEIGHT = 1.0
+
+MINIMAX_ROUNDS = 3
+MINIMAX_BATCH_SIZE = 64
+MINIMAX_ATTACK_STEPS = 10
+MINIMAX_ATTACK_ALPHA = 2 / 255
+MINIMAX_DETECTOR_WEIGHT = 1.0
